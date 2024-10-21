@@ -11,7 +11,6 @@ func AddBook(books *[]Book, book Book, publisherBookCount map[string]int) {
 func RemoveBook(books *[]Book, isbn string, publisherBookCount map[string]int) {
 	for i, book := range *books {
 		if book.ISBN == isbn {
-			//Сделать здесь удаления из map, если количество книг = 0 (мб какую-нибудь функцию проверку)
 			publisherName := book.Publisher.Name
 			publisherBookCount[publisherName]--
 			CheckMap(publisherBookCount)
@@ -89,12 +88,9 @@ func BooksByPublisher(books []Book) map[string][]Book {
 
 	for _, book := range books {
 		publisherName := book.Publisher.Name
-
-		// Если издательство уже есть в карте, добавляем книгу в срез
 		if _, exists := publisherGroups[publisherName]; exists {
 			publisherGroups[publisherName] = append(publisherGroups[publisherName], book)
 		} else {
-			// Если издательства нет в карте, создаем новый срез с этой книгой
 			publisherGroups[publisherName] = []Book{book}
 		}
 	}
@@ -117,8 +113,26 @@ func (p Publisher) GetDetails() string {
 	return fmt.Sprintf("Publisher: '%s', located in %s", p.Name, p.Address)
 }
 
-func printLibraryDetails(items []LibraryItem) {
+func PrintLibraryDetails(items []LibraryItem) {
 	for _, item := range items {
 		fmt.Println(item.GetDetails())
 	}
+}
+
+func SortByYear(books []Book, desc bool) []Book {
+	var Sorted []Book = books
+	for i := 0; i < len(Sorted)-1; i++ {
+		for j := i + 1; j < len(Sorted); j++ {
+			if desc {
+				if Sorted[i].Year < Sorted[j].Year {
+					Sorted[i], Sorted[j] = Sorted[j], Sorted[i]
+				}
+			} else {
+				if Sorted[i].Year > Sorted[j].Year {
+					Sorted[i], Sorted[j] = Sorted[j], Sorted[i]
+				}
+			}
+		}
+	}
+	return Sorted
 }

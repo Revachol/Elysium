@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	var books []Book
@@ -11,11 +13,12 @@ func main() {
 	book3 := NewBook("Introduction to Algorithms", "Thomas H. Cormen", 2009, "9780262033848", "B", "Moscow")
 
 	items := []LibraryItem{book1, book2}
-	printLibraryDetails(items)
+	PrintLibraryDetails(items)
 
 	AddBook(&books, book1, publisherBookCount)
 	AddBook(&books, book2, publisherBookCount)
 	AddBook(&books, book3, publisherBookCount)
+	SortByYear(books, true)
 
 	fmt.Println("All books:")
 	PrintAllBooks(books)
@@ -35,12 +38,19 @@ func main() {
 	PrintAllBooks(books)
 	fmt.Printf("\n============================\n\n")
 
-	fmt.Println("Remove 'Clean Code':")
-	RemoveBook(&books, "9780262033848", publisherBookCount)
-	PrintAllBooks(books)
-	PrintPublisher(publisherBookCount)
+	// fmt.Println("Remove 'Clean Code':")
+	// RemoveBook(&books, "9780262033848", publisherBookCount)
+	// PrintAllBooks(books)
+	// PrintPublisher(publisherBookCount)
 
 	groupedBooks := BooksByPublisher(books)
 	fmt.Println(groupedBooks["A"])
 
+	fmt.Printf("\n============================\n\n")
+
+	sortedBooks := SortByYear(books, false)
+	PrintAllBooks(sortedBooks)
+
+	sortedBooks = SortByYear(books, true)
+	PrintAllBooks(sortedBooks)
 }
